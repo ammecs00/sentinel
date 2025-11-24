@@ -1,0 +1,28 @@
+{
+  "server_url": "http://localhost:8000",
+  "api_key": "your-api-key-here",
+  "client_id": "linux-desktop-001",
+  "interval": 30,
+  "max_retries": 3,
+  "retry_delay": 5,
+  "log_level": "INFO",
+  "offline_storage": {
+    "enabled": true,
+    "max_queue_size": 1000,
+    "auto_flush": true
+  },
+  "features": {
+    "track_active_window": true,
+    "track_processes": true,
+    "track_system_metrics": true,
+    "track_browser_usage": true,
+    "track_application_usage": true,
+    "deep_monitoring": true
+  },
+  "browser_tracking": {
+    "firefox": true,
+    "chrome": true,
+    "chromium": true,
+    "max_history_items": 20
+  }
+}

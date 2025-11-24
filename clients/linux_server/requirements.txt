@@ -1,0 +1,6 @@
+psutil==5.9.5
+requests==2.31.0
+python-dotenv==1.0.0
+docker==6.1.3
+# System dependencies (install via package manager):
+# docker-cli, postgresql-client

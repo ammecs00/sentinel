@@ -1,0 +1,6 @@
+psutil==5.9.5
+requests==2.31.0
+python-dotenv==1.0.0
+pyxdg==0.28
+# System dependencies (install via package manager):
+# xdotool, wmctrl, postgresql-client (for pg_isready)

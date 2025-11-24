@@ -1,0 +1,32 @@
+import React from 'react'
+
+const Card = ({ 
+  children, 
+  title,
+  actions,
+  className = ''
+}) => {
+  return (
+    <div className={`card ${className}`}>
+      {(title || actions) && (
+        <div className="card-header flex items-center justify-between">
+          {title && (
+            <h3 className="text-lg font-semibold text-gray-900">
+              {title}
+            </h3>
+          )}
+          {actions && (
+            <div className="flex items-center gap-2">
+              {actions}
+            </div>
+          )}
+        </div>
+      )}
+      <div className="card-content">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+export default Card

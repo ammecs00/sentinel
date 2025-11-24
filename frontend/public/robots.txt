@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /api/
+Disallow: /login
+Disallow: /settings
+Disallow: /clients
+Disallow: /activities

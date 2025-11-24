@@ -1,0 +1,8 @@
+psutil==5.9.5
+requests==2.31.0
+python-dotenv==1.0.0
+pywin32==306
+WMI==1.5.1
+pythoncom==1.0.0
+# Note: pywin32 may require running post-install script:
+# python Scripts/pywin32_postinstall.py -install

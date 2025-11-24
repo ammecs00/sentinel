@@ -1,0 +1,29 @@
+{
+  "server_url": "http://localhost:8000",
+  "api_key": "your-api-key-here",
+  "client_id": "windows-server-001",
+  "interval": 60,
+  "max_retries": 3,
+  "retry_delay": 5,
+  "log_level": "INFO",
+  "offline_storage": {
+    "enabled": true,
+    "max_queue_size": 1000,
+    "auto_flush": true
+  },
+  "features": {
+    "track_processes": true,
+    "track_system_metrics": true,
+    "monitor_services": true,
+    "monitor_event_logs": true,
+    "track_iis_status": true,
+    "security_scanning": true,
+    "deep_monitoring": true
+  },
+  "windows_server": {
+    "monitor_roles": true,
+    "track_security_events": true,
+    "monitor_windows_updates": true,
+    "iis_monitoring": true
+  }
+}
