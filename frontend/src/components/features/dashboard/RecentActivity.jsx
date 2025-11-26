@@ -3,9 +3,11 @@ import { useActivities } from '@hooks'
 import { Card, Table, LoadingSpinner } from '@components/common'
 import { formatRelativeTime, formatClientType, truncateText } from '@utils'
 import { ExternalLink } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const RecentActivity = () => {
-  const { activities, loading, error, refetch } = useActivities(true, { limit: 10 })
+  const { activities, loading, error } = useActivities(true, { limit: 10 })
+  const navigate = useNavigate()
   
   const columns = [
     {
@@ -30,7 +32,7 @@ const RecentActivity = () => {
     },
     {
       key: 'active_window',
-      header: 'Window Title',
+      header: 'Window',
       width: '30%',
       render: (activity) => truncateText(activity.active_window || 'No active window', 50)
     },
@@ -45,34 +47,48 @@ const RecentActivity = () => {
       )
     }
   ]
-  
-  return (
-    <Card
-      title="Recent Activity"
-      subtitle="Latest activity from all clients"
-      actions={
-        <button 
-          onClick={refetch}
-          className="btn btn-secondary btn-sm"
-          disabled={loading}
-        >
-          Refresh
-        </button>
-      }
-    >
-      {loading ? (
+
+  const handleViewAll = () => {
+    navigate('/activities')
+  }
+
+  if (loading) {
+    return (
+      <Card title="Recent Activity" subtitle="Latest client activities">
         <LoadingSpinner text="Loading activities..." />
-      ) : error ? (
+      </Card>
+    )
+  }
+
+  if (error) {
+    return (
+      <Card title="Recent Activity" subtitle="Latest client activities">
         <div className="error-state">
           <p>Failed to load activities: {error}</p>
         </div>
-      ) : (
-        <Table
-          columns={columns}
-          data={activities}
-          emptyMessage="No recent activity"
-        />
-      )}
+      </Card>
+    )
+  }
+
+  return (
+    <Card 
+      title="Recent Activity" 
+      subtitle="Latest client activities"
+      actions={
+        <button 
+          className="btn btn-secondary btn-sm"
+          onClick={handleViewAll}
+        >
+          <ExternalLink size={16} />
+          View All
+        </button>
+      }
+    >
+      <Table
+        columns={columns}
+        data={activities}
+        emptyMessage="No recent activities"
+      />
     </Card>
   )
 }

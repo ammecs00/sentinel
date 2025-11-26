@@ -224,7 +224,7 @@ class AuthService:
     def list_api_keys(self) -> list[ApiKey]:
         return (
             self.db.query(ApiKey)
-            .filter(ApiKey.is_active == True)  # <--- Add this filter
+            .filter(ApiKey.is_active == True)
             .order_by(ApiKey.created_at.desc())
             .all()
         )
