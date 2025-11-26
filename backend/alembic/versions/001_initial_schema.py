@@ -61,7 +61,7 @@ def upgrade() -> None:
     op.create_index('ix_clients_last_seen', 'clients', ['last_seen'])
     op.create_index('ix_clients_type_active', 'clients', ['client_type', 'is_active'])
     
-    # Activities table
+    # Activities table with foreign key
     op.create_table(
         'activities',
         sa.Column('id', sa.Integer(), nullable=False),
@@ -80,14 +80,15 @@ def upgrade() -> None:
         sa.Column('productivity_score', sa.Integer(), nullable=True),
         sa.Column('additional_data', sa.Text(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.PrimaryKeyConstraint('id')
+        sa.PrimaryKeyConstraint('id'),
+        sa.ForeignKeyConstraint(['client_id'], ['clients.client_id'], ondelete='CASCADE')
     )
     op.create_index('ix_activities_client_id', 'activities', ['client_id'])
     op.create_index('ix_activities_timestamp', 'activities', ['timestamp'])
     op.create_index('ix_activities_client_timestamp', 'activities', ['client_id', 'timestamp'])
     op.create_index('ix_activities_category', 'activities', ['activity_category'])
     
-# API Keys table (continued from previous)
+    # API Keys table with foreign key
     op.create_table(
         'api_keys',
         sa.Column('id', sa.Integer(), nullable=False),
@@ -104,7 +105,8 @@ def upgrade() -> None:
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
         sa.PrimaryKeyConstraint('id'),
-        sa.UniqueConstraint('key_hash')
+        sa.UniqueConstraint('key_hash'),
+        sa.ForeignKeyConstraint(['created_by'], ['users.id'], ondelete='SET NULL')
     )
     op.create_index('ix_api_keys_key_hash', 'api_keys', ['key_hash'])
 

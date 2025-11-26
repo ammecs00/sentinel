@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, Index, Float
+from sqlalchemy import Column, Integer, String, DateTime, Text, Index, Float, ForeignKey
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.core.database import Base
 
@@ -7,7 +8,7 @@ class Activity(Base):
     __tablename__ = "activities"
     
     id = Column(Integer, primary_key=True, index=True)
-    client_id = Column(String(255), index=True, nullable=False)
+    client_id = Column(String(255), ForeignKey('clients.client_id', ondelete='CASCADE'), index=True, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True, nullable=False)
     
     # Activity data
@@ -26,20 +27,22 @@ class Activity(Base):
     disk_percent = Column(Float, nullable=True)
     
     # Categorization
-    activity_category = Column(String(50), nullable=True)  # work, break, idle, etc.
-    productivity_score = Column(Integer, nullable=True)  # 0-100
+    activity_category = Column(String(50), nullable=True)
+    productivity_score = Column(Integer, nullable=True)
     
     # Additional data
-    additional_data = Column(Text, nullable=True)  # JSON string
+    additional_data = Column(Text, nullable=True)
     
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
-    # Indexes for performance
+    # Relationship
+    client = relationship("Client", back_populates="activities")
+    
+    # Indexes
     __table_args__ = (
         Index('ix_activities_client_timestamp', 'client_id', 'timestamp'),
         Index('ix_activities_category', 'activity_category'),
-        Index('ix_activities_timestamp_desc', 'timestamp'),
     )
     
     def __repr__(self):

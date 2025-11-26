@@ -96,20 +96,14 @@ def verify_token(token: str) -> Dict[str, Any]:
 
 def generate_api_key() -> str:
     """Generate a secure API key"""
-    # Generate 32 bytes of random data
-    random_bytes = secrets.token_bytes(32)
-    # Create a hash for additional security
-    hash_object = hashlib.sha256(random_bytes)
-    # Encode as URL-safe base64
-    key = secrets.token_urlsafe(32)
-    return f"sk_{key}"
+    return f"sk_{secrets.token_urlsafe(32)}"
 
 
 def hash_api_key(api_key: str) -> str:
-    """Hash an API key for storage"""
-    return hashlib.sha256(api_key.encode()).hexdigest()
+    """Hash an API key for storage using bcrypt"""
+    return pwd_context.hash(api_key)
 
 
 def verify_api_key(plain_key: str, hashed_key: str) -> bool:
-    """Verify an API key against its hash"""
-    return hash_api_key(plain_key) == hashed_key
+    """Verify an API key against its bcrypt hash"""
+    return pwd_context.verify(plain_key, hashed_key)
