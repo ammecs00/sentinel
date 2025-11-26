@@ -34,3 +34,30 @@ class ClientCreate(BaseModel):
         if v and len(json.dumps(v)) > 5000:
             raise ValueError('Platform info too large')
         return v
+
+
+class ClientUpdate(BaseModel):
+    hostname: Optional[str] = None
+    ip_address: Optional[str] = None
+    platform_info: Optional[Dict[str, Any]] = None
+    is_active: Optional[bool] = None
+    employee_consent: Optional[bool] = None
+
+
+class ClientOut(BaseModel):
+    id: int
+    client_id: str
+    client_type: str
+    hostname: Optional[str] = None
+    ip_address: Optional[str] = None
+    platform_info: Optional[str] = None
+    is_active: bool
+    last_seen: datetime
+    employee_consent: bool
+    consent_date: Optional[datetime] = None
+    consent_ip: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
